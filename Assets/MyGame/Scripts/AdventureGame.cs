@@ -8,32 +8,85 @@ using UnityEditor;
 public class AdventureGame : MonoBehaviour {
 
     private static readonly System.Random getrandom = new System.Random();
-    [SerializeField] Text textComponent;
+    [SerializeField] Text textIntroComponent;
+    [SerializeField] Text textStoryComponent;
+    [SerializeField] Text textComponentChoises;
     [SerializeField] State startingState;
+    public Image introBG;
+    public Image storyBG;
+    public Image storyMenueBG;
+    public Image humanStateBG;
+    public Image woolStateBG;
+    public Text woolStateTxt;
+    public Text humanStateTxt;
+
+
     private int passedStatesCount;
     private int collectedWoolCount;
     private double dehydrationCount;
-    private bool exit;
-    
+    private bool wait, overrideTextComponent;
+    private bool infoOn;
+    private string overrideText;
     private int statesUntilRescue;
 
     State actualState;
 
-	// Use this for initialization
-	void Start () {
+    private void SetupIntroUI()
+    {
+        introBG.enabled = textIntroComponent.enabled = true;
+        storyMenueBG.enabled = textComponentChoises.enabled = true;
+
+        storyBG.enabled = textStoryComponent.enabled = false;
+        humanStateBG.enabled = humanStateTxt.enabled = false;
+        woolStateBG.enabled = woolStateTxt.enabled = false;
+        infoOn = false;
+    }
+
+    private void SetupInfoUI()
+    {
+        introBG.enabled = textIntroComponent.enabled = false;
+        storyMenueBG.enabled = textComponentChoises.enabled = true;
+
+        storyBG.enabled = textStoryComponent.enabled = true;
+        humanStateBG.enabled = humanStateTxt.enabled = true;
+        woolStateBG.enabled = woolStateTxt.enabled = true;
+        infoOn = true;
+    }
+
+    // Use this for initialization
+    void Start () {
         actualState = startingState;
-        textComponent.text = actualState.GetStateStroy();
+        textIntroComponent.text = actualState.GetStateStory();
+        textComponentChoises.text = actualState.GetStateStoryMenue();
         passedStatesCount = 0;
         collectedWoolCount = 0;
         dehydrationCount = 0;
-        statesUntilRescue = 100;
-        exit = false;
+        statesUntilRescue = 25;
+        wait = false;
+        Debug.Log("Enter");
+        SetupIntroUI();
 	}
 
     // Update is called once per frame
     void Update () {
         ManageState();
 	}
+
+    private string GetDehydrationText()
+    {
+        string txt = "Human \n" +
+                     "Name: Magda \n" +
+                     "Age: 21 \n" +
+                     "Dehydration: \n"+ 
+                     dehydrationCount+" %";
+        return txt;
+    }
+
+    private string GetWoolText()
+    {
+        string txt = "Wool collected (kg): " + collectedWoolCount;
+        return txt;
+    }
 
     private void ResetCounters()
     {
@@ -48,22 +101,9 @@ public class AdventureGame : MonoBehaviour {
         passedStatesCount += 1;
         dehydrationCount = (dehydrationCount < 20) ? dehydrationCount += 0.5 : dehydrationCount = 20;
 
-        if (nextState.name == "Info.Alarm")
+        if (passedStatesCount == statesUntilRescue)
         {
-            ResetCounters();
-            Debug.Log("Counters Reseted + " + passedStatesCount + " " + collectedWoolCount + " " + dehydrationCount);
-        }
-
-        if (dehydrationCount == 20)
-        {
-            Debug.Log("Exit Dehydration " + passedStatesCount);
-            return (State)AssetDatabase.LoadAssetAtPath("Assets/MyGame/States/Dead.Dehydration.asset", typeof(State));
-        }
-           
-        if(currentState.name == "Collect" && nextState.name == "Rescue")
-        {
-            Debug.Log("Rescue in Sicht " + passedStatesCount);
-            if(passedStatesCount <= statesUntilRescue)
+            if (passedStatesCount <= statesUntilRescue)
             {
                 return currentState;
             }
@@ -74,7 +114,70 @@ public class AdventureGame : MonoBehaviour {
             }
         }
 
-        if (currentState.name == "Collect" && nextState.name == "Collect")
+        if (dehydrationCount == 20)
+        {
+            Debug.Log("Exit Dehydration " + passedStatesCount);
+            return (State)AssetDatabase.LoadAssetAtPath("Assets/MyGame/States/Dead.Dehydration.asset", typeof(State));
+        }
+
+        if (nextState.name == "Info.Alarm")
+        {
+            ResetCounters();
+            Debug.Log("Counters Reseted + " + passedStatesCount + " " + collectedWoolCount + " " + dehydrationCount);
+        }
+
+        if (currentState.name != nextState.name)
+        {
+            wait = false;
+            overrideText = "reset";
+        }
+
+        if (currentState.name == nextState.name)
+        {
+            if(nextState.name == "Knit.Do" || nextState.name == "Fight.Attack" || nextState.name == "Collect.Do")
+            {
+                wait = false;
+                overrideText = "reset in do|attack";
+            }
+            else
+            {
+                wait = true;
+                overrideText = "Yes, waiting is the best option";
+            }
+
+        }
+
+        if(nextState.name == "Info.Done" || nextState.name == "Collect.Info")
+        {
+            SetupInfoUI();
+            overrideTextComponent = false;
+        }
+
+        if (currentState.name == "Info.Human" && nextState.name == "Info.Done")
+        {
+            overrideTextComponent = true;
+            overrideText = "Notification: Crime scene investigation revealed that robots destroyed all water inventories and water sponge warehouses. " + "\n \n" +
+                           "Notification: All proper working service robots have to ensure that their godhumans stay alive and do not dry out." + "\n \n" +
+                           "Notification: Collect wool and knit water sponges which are able to make water out of air. ";
+
+        }
+
+        if (currentState.name == "Info.Accident" && nextState.name == "Info.Done")
+        {
+            overrideTextComponent = true;
+            overrideText = "Magda is a 21 year old woman. She loves salty food and is doing a lot of sports." + "\n" +
+                           "Good news, Magda is alive and at this moment she isn't dehydrated." + "\n" +
+                           "For knitting wool you visit her in her house. Collect wool and knit enough sponges so that she will " +
+                           "survive until rescue is approaching.";
+
+        }
+
+        if (currentState.name == "Info.Done" && nextState.name == "Collect")
+        {
+            overrideTextComponent = false;
+        }
+
+        if ((currentState.name == "Collect.Info" || currentState.name == "Collect.Do") && nextState.name == "Collect.Do")
         {   
             int nbrWool = getrandom.Next(1, 3);
             collectedWoolCount += nbrWool;
@@ -84,24 +187,31 @@ public class AdventureGame : MonoBehaviour {
         }
 
 
-        if (currentState.name == "Knit" && nextState.name == "Knit")
+        if ((currentState.name == "Knit.Info"|| nextState.name == "Knit.Do") && nextState.name == "Knit.Do")
         {
             if(collectedWoolCount >= 2){
                 collectedWoolCount -= 2;
-                dehydrationCount -= 1;
+                dehydrationCount -= 1.5;
                 Debug.Log("Wool Knitted -2kg + 1L water for magda, current dehydration" + dehydrationCount );
 
             }
             else
             {
-                nextState.SetKnitNotification("not enough wool for knitting. collect wool");
+                overrideText = "Sorry, not enough wool for knitting. collect wool";
+                overrideTextComponent = true;
+                //nextState.SetKnitNotification(/*"Sorry, not enough wool for knitting. collect wool*/");
             }
             
             Debug.Log("Wolle -2, Wasser +1");
             return nextState;
         }
 
-        if(currentState.name == "Fight" && (nextState.name == "Collect" || nextState.name == "Fight")){
+        if (currentState.name == "Knit.Do" && currentState.name == "Collect.Info") 
+        {
+            overrideTextComponent = false;
+        }
+
+        if(currentState.name == "Fight.Do" && (nextState.name == "Collect.Info" || nextState.name == "Fight.Do")){
 
             Debug.Log("wool before Fight in kg: " + collectedWoolCount);
             collectedWoolCount += getrandom.Next(0, 3);
@@ -110,12 +220,11 @@ public class AdventureGame : MonoBehaviour {
 
         }
 
-        return nextState;
+            return nextState;
     }
 
     private int Clamp(int value, int cmin, int cmax)
     {
-
         return Math.Max(Math.Min(value, cmax), cmin);
     }
 
@@ -159,6 +268,35 @@ public class AdventureGame : MonoBehaviour {
         {
             //Debug.Log("bin am leben");
         }
-        textComponent.text = actualState.GetStateStroy();
+
+        if (wait || overrideTextComponent)
+        {
+            Debug.Log("in wait "+ infoOn);
+            if (infoOn)
+            {
+                textStoryComponent.text = overrideText;
+            }
+            else
+            {
+                textIntroComponent.text = overrideText;
+            }
+            
+        }
+        else
+        {
+            if (infoOn)
+            {
+                textStoryComponent.text = actualState.GetStateStory();
+            }
+            else
+            {
+                textIntroComponent.text = actualState.GetStateStory();
+            }
+        }
+
+        //textStoryComponent.text = actualState.GetStateStroy();
+        textComponentChoises.text = actualState.GetStateStoryMenue();
+        humanStateTxt.text = GetDehydrationText();
+        woolStateTxt.text = GetWoolText();
     }
 }

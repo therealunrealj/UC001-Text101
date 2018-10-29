@@ -9,30 +9,18 @@ public class State : ScriptableObject{
     private static readonly System.Random getrandom = new System.Random();
 
     [TextArea(10,14)][SerializeField] string storyText;
+    [TextArea(5, 14)] [SerializeField] string storyNextchoices;
     public State[] nextStates;
     public State[] randomStates;
 
-    private string knitnotification, collectnotification, dehydrationnotificaton;
-
-    public void SetKnitNotification(string notifiction)
-    {
-        knitnotification = notifiction;
-    }
-
-    public void SetCollectNotification(string notifiction)
-    {
-        collectnotification = notifiction;
-    }
-
-    public void SetDehydtrationNotification(string notifiction)
-    {
-        dehydrationnotificaton = notifiction;
-    }
-
-
-    public string GetStateStroy()
+    public string GetStateStory()
     {
         return storyText;
+    }
+
+    public string GetStateStoryMenue()
+    {
+        return storyNextchoices;
     }
 
     public State[] GetNextStates()

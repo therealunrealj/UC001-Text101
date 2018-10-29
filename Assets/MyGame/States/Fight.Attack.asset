@@ -9,18 +9,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 566f07b95ff427b48a24409368f999b0, type: 3}
-  m_Name: Knit
+  m_Name: Fight.Attack
   m_EditorClassIdentifier: 
-  storyText: 'in knit
-
-
-    1 collect wool
-
-    2 knit
-
-    3 wait'
+  storyText: "You are under attack!\n\nNotification: More Fightbots are heading to
+    your direction. \n"
+  storyNextchoices: " [1] Attack the Fightbots.\n[2] Running away. \n"
   nextStates:
   - {fileID: 11400000, guid: 49087224d508cd246a8968cfb79835db, type: 2}
+  randomStates:
   - {fileID: 11400000}
-  - {fileID: 11400000}
-  randomStates: []
+  - {fileID: 11400000, guid: 024e77acce892ad4685ce40694f1d18a, type: 2}

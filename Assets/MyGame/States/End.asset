@@ -11,5 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566f07b95ff427b48a24409368f999b0, type: 3}
   m_Name: End
   m_EditorClassIdentifier: 
-  storyText: in end
+  storyText: 'It was nice to see you, but know it has passed. '
+  storyNextchoices: 
   nextStates: []
+  randomStates: []

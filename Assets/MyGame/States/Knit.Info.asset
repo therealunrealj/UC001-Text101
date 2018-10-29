@@ -9,19 +9,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 566f07b95ff427b48a24409368f999b0, type: 3}
-  m_Name: Info.Human
+  m_Name: Knit.Info
   m_EditorClassIdentifier: 
-  storyText: "Magda is a 21 year old woman. She loves salty food and is doing a lot
-    of sports. \n\nGood news, Magda is alive and at this moment she isn't dehydrated.
-    \n\nFor knitting wool you visit her in her house.  Be Collect and knit enough
-    that she will survive until rescue is approaching. "
+  storyText: "You are at Magda's home.\nYou know knitting this special kind of wool
+    to a water sponge makes it possible to get water out of the dry air. \n\nYou have
+    to collect 2 kg water for 0.5 L water.  "
   storyNextchoices: ' [1] Find and collect some wool
 
-    [2] Request information about the accident.
+    [2] Knit it now
 
-    [3] Wait, linger in shock'
+    [3] wait'
   nextStates:
   - {fileID: 11400000, guid: 49087224d508cd246a8968cfb79835db, type: 2}
-  - {fileID: 11400000, guid: dd3dd5109c9ffda4981974225953ea5a, type: 2}
+  - {fileID: 11400000, guid: 8045b41f480dd7649b779110897e8f89, type: 2}
   - {fileID: 11400000}
   randomStates: []

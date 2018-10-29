@@ -11,12 +11,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566f07b95ff427b48a24409368f999b0, type: 3}
   m_Name: Info.Done
   m_EditorClassIdentifier: 
-  storyText: 'in info done
+  storyText: "Text is substituded within script dependent from the state before. \n\n"
+  storyNextchoices: ' [1] Find and collect some wool
 
-
-    1 collect
-
-    2 wait'
+    [2] Wait, linger in shock'
   nextStates:
   - {fileID: 11400000, guid: 49087224d508cd246a8968cfb79835db, type: 2}
   - {fileID: 11400000}

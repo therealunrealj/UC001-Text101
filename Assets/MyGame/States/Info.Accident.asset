@@ -11,12 +11,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566f07b95ff427b48a24409368f999b0, type: 3}
   m_Name: Info.Accident
   m_EditorClassIdentifier: 
-  storyText: 'in info accident
+  storyText: "Notification: Crime scene investigation revealed that robots destroyed
+    all water inventories and water sponge warehouses. \n\nNotification: All proper
+    working service robots have to ensure that their godhumans stay alive and do not
+    dry out. \n\nNotification: Collect wool and knit water sponges which are able
+    to make water out of air. "
+  storyNextchoices: ' [1] Request information about the human.
 
-
-    1) show Human Info
-
-    2) wait'
+    [2] Wait, linger in shock'
   nextStates:
   - {fileID: 11400000}
   randomStates:

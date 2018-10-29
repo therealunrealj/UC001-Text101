@@ -11,17 +11,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 566f07b95ff427b48a24409368f999b0, type: 3}
   m_Name: Info.Alarm
   m_EditorClassIdentifier: 
-  storyText: 'in Alarm
+  storyText: "Notification: Alarm! Alarm! An accident occurred. \n\nNotification:
+    Some robots have a malfunction. They believe to be Fighting-Bots.\n"
+  storyNextchoices: ' [1] Request information about the human.
 
+    [2] Request information about the accident.
 
-
-    1 info human
-
-    2 info accident
-
-    3 wait
-
-'
+    [3] Wait, linger in shock'
   nextStates:
   - {fileID: 11400000, guid: a0e5189dc9fb4f1489825821c6b04a34, type: 2}
   - {fileID: 11400000}

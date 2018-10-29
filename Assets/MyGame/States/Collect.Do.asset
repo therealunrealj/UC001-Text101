@@ -9,13 +9,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 566f07b95ff427b48a24409368f999b0, type: 3}
-  m_Name: Dead.Accident
+  m_Name: Collect.Do
   m_EditorClassIdentifier: 
-  storyText: "Sorry to say, but your godhuman died at the accident. \n"
-  storyNextchoices: ' [1] Replay
+  storyText: You collected wool.
+  storyNextchoices: ' [1] Find and collect some wool
 
-    [2] End'
+    [2] Knit the wool to a water sponge.
+
+'
   nextStates:
-  - {fileID: 11400000, guid: f0e035a12f5f02b47a76b04cf2012011, type: 2}
-  - {fileID: 11400000, guid: 1084e64f20c7fd641a3f80d4f7bacf49, type: 2}
-  randomStates: []
+  - {fileID: 11400000, guid: c1cbf490478a362418bd490550e0413f, type: 2}
+  randomStates:
+  - {fileID: 11400000}
+  - {fileID: 11400000, guid: 54c4e0e65f4553747a306c0d471152f9, type: 2}
