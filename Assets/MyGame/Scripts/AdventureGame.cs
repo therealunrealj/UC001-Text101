@@ -3,14 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEditor;
 
 public class AdventureGame : MonoBehaviour {
 
     [SerializeField] Text textComponent;
     [SerializeField] State startingState;
-    private int count;
+    private int passedStatesCount;
+    private int collectedWoolCount;
+    private double dehydrationCount;
+    
     private int statesUntilRescue;
-    private double dehydration;
 
     State actualState;
 
@@ -18,8 +21,9 @@ public class AdventureGame : MonoBehaviour {
 	void Start () {
         actualState = startingState;
         textComponent.text = actualState.GetStateStroy();
-        count = 0;
-        statesUntilRescue = 29;
+        passedStatesCount = 0;
+        collectedWoolCount = 0;
+        statesUntilRescue = 100;
 	}
 
     // Update is called once per frame
@@ -29,17 +33,24 @@ public class AdventureGame : MonoBehaviour {
 
     private State doTransition(State currentState, State nextState)
     {
-        count += 1;
-        dehydration += 0.5;
+        passedStatesCount += 1;
+        dehydrationCount = (dehydrationCount < 20) ? dehydrationCount += 0.5 : dehydrationCount = 20;
+
+        if (dehydrationCount == 20)
+        {
+            Debug.Log("Exit Dehydration " + passedStatesCount);
+            return (State)AssetDatabase.LoadAssetAtPath("Assets/MyGame/States/Dead.Dehydration.asset", typeof(State));
+        }
            
         if(currentState.name == "Collect" && nextState.name == "Rescue")
         {
-            Debug.Log("Rescue in Sicht " + count);
-            return count <= statesUntilRescue ? currentState : nextState;
+            Debug.Log("Rescue in Sicht " + passedStatesCount);
+            return passedStatesCount <= statesUntilRescue ? currentState : nextState;
         }
         if (currentState.name == "Collect" && nextState.name == "Collect")
         {
             Debug.Log("Wolle +1");
+            collectedWoolCount += collectedWoolCount;
             return nextState;
         }
         if (currentState.name == "Knit" && nextState.name == "Knit")
