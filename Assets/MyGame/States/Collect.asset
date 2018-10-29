@@ -23,6 +23,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c1cbf490478a362418bd490550e0413f, type: 2}
   - {fileID: 11400000}
   randomStates:
-  - {fileID: 11400000, guid: 54c4e0e65f4553747a306c0d471152f9, type: 2}
   - {fileID: 11400000}
-  - {fileID: 11400000, guid: c9022fabc596db54589c1922c33bb36f, type: 2}
+  - {fileID: 11400000, guid: 54c4e0e65f4553747a306c0d471152f9, type: 2}

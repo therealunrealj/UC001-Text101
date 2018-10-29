@@ -12,6 +12,23 @@ public class State : ScriptableObject{
     public State[] nextStates;
     public State[] randomStates;
 
+    private string knitnotification, collectnotification, dehydrationnotificaton;
+
+    public void SetKnitNotification(string notifiction)
+    {
+        knitnotification = notifiction;
+    }
+
+    public void SetCollectNotification(string notifiction)
+    {
+        collectnotification = notifiction;
+    }
+
+    public void SetDehydtrationNotification(string notifiction)
+    {
+        dehydrationnotificaton = notifiction;
+    }
+
 
     public string GetStateStroy()
     {
@@ -25,32 +42,29 @@ public class State : ScriptableObject{
             return nextStates; 
         }
 
-        int rnd = PickBiasedRandomState(0, 0, randomStates.Length);
         State[] extendedArray = new State[nextStates.Length + 1];
 
-
-        Debug.Log("rnd " +rnd);
+        int rnd = PickBiasedRandomState(0, 0, randomStates.Length, 0.7);
         extendedArray[0] = randomStates[rnd];
         for (int i = 0; i < nextStates.Length; i++)
         {
             extendedArray[i + 1] = nextStates[i];
         }
 
-        Debug.Log("States are Merged");
         return extendedArray;
     }
 
-    int PickBiasedRandomState(int idxPrefered, int idxMin, int idxMax)
+    int PickBiasedRandomState(int idxPrefered, int randomMin, int randomMax, double probabilityPrefered)
     {
         //return getrandom.NextDouble() < 0.8 ? idxPrefered : getrandom.Next(idxMin, idxMax);
      
-        if (getrandom.NextDouble() < 0.8)
+        if (getrandom.NextDouble() < probabilityPrefered)
         {
-            Debug.Log("< 0.8");
+            Debug.Log("< " + probabilityPrefered);
             return idxPrefered;
         }
-        Debug.Log("> 0.8");
-        return getrandom.Next(idxMin, idxMax);
+        Debug.Log("> " + probabilityPrefered);
+        return getrandom.Next(randomMin, randomMax);
     }
 
 }

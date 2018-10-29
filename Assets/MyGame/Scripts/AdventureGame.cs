@@ -7,11 +7,13 @@ using UnityEditor;
 
 public class AdventureGame : MonoBehaviour {
 
+    private static readonly System.Random getrandom = new System.Random();
     [SerializeField] Text textComponent;
     [SerializeField] State startingState;
     private int passedStatesCount;
     private int collectedWoolCount;
     private double dehydrationCount;
+    private bool exit;
     
     private int statesUntilRescue;
 
@@ -23,7 +25,9 @@ public class AdventureGame : MonoBehaviour {
         textComponent.text = actualState.GetStateStroy();
         passedStatesCount = 0;
         collectedWoolCount = 0;
+        dehydrationCount = 0;
         statesUntilRescue = 100;
+        exit = false;
 	}
 
     // Update is called once per frame
@@ -31,10 +35,24 @@ public class AdventureGame : MonoBehaviour {
         ManageState();
 	}
 
+    private void ResetCounters()
+    {
+        passedStatesCount  = 0;
+        collectedWoolCount = 0;
+        dehydrationCount   = 0;
+    }
+
     private State doTransition(State currentState, State nextState)
     {
+
         passedStatesCount += 1;
         dehydrationCount = (dehydrationCount < 20) ? dehydrationCount += 0.5 : dehydrationCount = 20;
+
+        if (nextState.name == "Info.Alarm")
+        {
+            ResetCounters();
+            Debug.Log("Counters Reseted + " + passedStatesCount + " " + collectedWoolCount + " " + dehydrationCount);
+        }
 
         if (dehydrationCount == 20)
         {
@@ -45,22 +63,60 @@ public class AdventureGame : MonoBehaviour {
         if(currentState.name == "Collect" && nextState.name == "Rescue")
         {
             Debug.Log("Rescue in Sicht " + passedStatesCount);
-            return passedStatesCount <= statesUntilRescue ? currentState : nextState;
+            if(passedStatesCount <= statesUntilRescue)
+            {
+                return currentState;
+            }
+            else
+            {
+                Debug.Log("Exit Rescue " + passedStatesCount);
+                return nextState;
+            }
         }
+
         if (currentState.name == "Collect" && nextState.name == "Collect")
-        {
-            Debug.Log("Wolle +1");
-            collectedWoolCount += collectedWoolCount;
+        {   
+            int nbrWool = getrandom.Next(1, 3);
+            collectedWoolCount += nbrWool;
+            collectedWoolCount = Clamp(collectedWoolCount, 0, 5);
+            Debug.Log("Collected " + nbrWool + "kg wool: current wool count: " + collectedWoolCount);
             return nextState;
         }
+
+
         if (currentState.name == "Knit" && nextState.name == "Knit")
         {
+            if(collectedWoolCount >= 2){
+                collectedWoolCount -= 2;
+                dehydrationCount -= 1;
+                Debug.Log("Wool Knitted -2kg + 1L water for magda, current dehydration" + dehydrationCount );
+
+            }
+            else
+            {
+                nextState.SetKnitNotification("not enough wool for knitting. collect wool");
+            }
+            
             Debug.Log("Wolle -2, Wasser +1");
             return nextState;
+        }
+
+        if(currentState.name == "Fight" && (nextState.name == "Collect" || nextState.name == "Fight")){
+
+            Debug.Log("wool before Fight in kg: " + collectedWoolCount);
+            collectedWoolCount += getrandom.Next(0, 3);
+            collectedWoolCount = Clamp(collectedWoolCount, 0, 5);
+            Debug.Log("wool after Fight in kg: " + collectedWoolCount);
 
         }
 
         return nextState;
+    }
+
+    private int Clamp(int value, int cmin, int cmax)
+    {
+
+        return Math.Max(Math.Min(value, cmax), cmin);
     }
 
 
@@ -101,7 +157,7 @@ public class AdventureGame : MonoBehaviour {
         }
         else
         {
-            Debug.Log("bin am leben");
+            //Debug.Log("bin am leben");
         }
         textComponent.text = actualState.GetStateStroy();
     }

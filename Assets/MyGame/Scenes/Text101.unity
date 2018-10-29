@@ -324,7 +324,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Elexir of life
+  m_Text: Elixir of life
 --- !u!222 &712307298
 CanvasRenderer:
   m_ObjectHideFlags: 0
