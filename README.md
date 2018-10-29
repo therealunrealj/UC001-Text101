@@ -25,3 +25,6 @@ This is a very dramatic situation because Xland suffers from a long dry preiod a
 Eduard a service robot has to ensure that Magdalena, his godhuman, does not die of thirst until rescue is approaching. 
 In this area a special kind of wool is produced which extracts water or argon from air dependent on the knitted pattern.
 Eduard now has the goal to find the wool before the fighting robots, who also aim to collect the wool to produce laser weapons on the basis of acron. 
+
+Sources: 
+Fonts: google fonts. 
