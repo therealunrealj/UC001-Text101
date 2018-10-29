@@ -8,6 +8,9 @@ public class AdventureGame : MonoBehaviour {
 
     [SerializeField] Text textComponent;
     [SerializeField] State startingState;
+    private int count;
+    private int statesUntilRescue;
+    private double dehydration;
 
     State actualState;
 
@@ -15,6 +18,8 @@ public class AdventureGame : MonoBehaviour {
 	void Start () {
         actualState = startingState;
         textComponent.text = actualState.GetStateStroy();
+        count = 0;
+        statesUntilRescue = 29;
 	}
 
     // Update is called once per frame
@@ -24,9 +29,14 @@ public class AdventureGame : MonoBehaviour {
 
     private State doTransition(State currentState, State nextState)
     {
-//        count += 1;
+        count += 1;
+        dehydration += 0.5;
            
-
+        if(currentState.name == "Collect" && nextState.name == "Rescue")
+        {
+            Debug.Log("Rescue in Sicht " + count);
+            return count <= statesUntilRescue ? currentState : nextState;
+        }
         if (currentState.name == "Collect" && nextState.name == "Collect")
         {
             Debug.Log("Wolle +1");
