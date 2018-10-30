@@ -29,6 +29,7 @@ public class AdventureGame : MonoBehaviour {
     private string overrideText;
     private int statesUntilRescue;
 
+
     State actualState;
 
     private void SetupIntroUI()
@@ -61,9 +62,10 @@ public class AdventureGame : MonoBehaviour {
         passedStatesCount = 0;
         collectedWoolCount = 0;
         dehydrationCount = 0;
-        statesUntilRescue = 25;
+        statesUntilRescue = 30;
         wait = false;
         Debug.Log("Enter");
+      
         SetupIntroUI();
 	}
 
@@ -103,21 +105,22 @@ public class AdventureGame : MonoBehaviour {
 
         if (passedStatesCount == statesUntilRescue)
         {
-            if (passedStatesCount <= statesUntilRescue)
-            {
-                return currentState;
-            }
-            else
-            {
-                Debug.Log("Exit Rescue " + passedStatesCount);
-                return nextState;
-            }
+            overrideTextComponent = wait = false;
+            Debug.Log("reached passed state counts: " + passedStatesCount);
+            var rescue = Resources.Load<State>("States/Rescue");
+            return rescue;
         }
 
         if (dehydrationCount == 20)
         {
-            Debug.Log("Exit Dehydration " + passedStatesCount);
-            return (State)AssetDatabase.LoadAssetAtPath("Assets/MyGame/States/Dead.Dehydration.asset", typeof(State));
+            Debug.Log("Exit Dehydration " + dehydrationCount);
+            overrideTextComponent = wait = false;
+            dehydrationCount = 100;
+
+            //return (State)AssetDatabase.LoadAssetAtPath("Assets/MyGame/States/Dead.Dehydration.asset", typeof(State));
+            var deadDehyd = Resources.Load<State>("States/Dead.Dehydration");
+            return deadDehyd;
+
         }
 
         if (nextState.name == "Info.Alarm")
@@ -211,7 +214,8 @@ public class AdventureGame : MonoBehaviour {
             overrideTextComponent = false;
         }
 
-        if(currentState.name == "Fight.Do" && (nextState.name == "Collect.Info" || nextState.name == "Fight.Do")){
+        if(currentState.name == "Fight.Do" && (nextState.name == "Collect.Info" || nextState.name == "Fight.Do"))
+        {
 
             Debug.Log("wool before Fight in kg: " + collectedWoolCount);
             collectedWoolCount += getrandom.Next(0, 3);
@@ -284,6 +288,7 @@ public class AdventureGame : MonoBehaviour {
         }
         else
         {
+            Debug.Log("in wait else" + infoOn);
             if (infoOn)
             {
                 textStoryComponent.text = actualState.GetStateStory();
@@ -294,7 +299,7 @@ public class AdventureGame : MonoBehaviour {
             }
         }
 
-        //textStoryComponent.text = actualState.GetStateStroy();
+
         textComponentChoises.text = actualState.GetStateStoryMenue();
         humanStateTxt.text = GetDehydrationText();
         woolStateTxt.text = GetWoolText();
