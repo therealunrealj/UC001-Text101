@@ -16,7 +16,7 @@ public class AdventureGame : MonoBehaviour
 
     [SerializeField] Text textIntroComponent;
     [SerializeField] Text textStoryComponent;
-    [SerializeField] Text textComponentChoises;
+    [SerializeField] Text textComponentChoices;
     [SerializeField] State startingState;
     public Image introBG;
     public Image storyBG;
@@ -41,7 +41,7 @@ public class AdventureGame : MonoBehaviour
     private void SetupIntroUI()
     {
         introBG.enabled = textIntroComponent.enabled = true;
-        storyMenueBG.enabled = textComponentChoises.enabled = true;
+        storyMenueBG.enabled = textComponentChoices.enabled = true;
 
         storyBG.enabled = textStoryComponent.enabled = false;
         humanStateBG.enabled = humanStateTxt.enabled = false;
@@ -52,7 +52,7 @@ public class AdventureGame : MonoBehaviour
     private void SetupInfoUI()
     {
         introBG.enabled = textIntroComponent.enabled = false;
-        storyMenueBG.enabled = textComponentChoises.enabled = true;
+        storyMenueBG.enabled = textComponentChoices.enabled = true;
 
         storyBG.enabled = textStoryComponent.enabled = true;
         humanStateBG.enabled = humanStateTxt.enabled = true;
@@ -65,7 +65,7 @@ public class AdventureGame : MonoBehaviour
     {
         actualState = startingState;
         textIntroComponent.text = actualState.GetStateStory();
-        textComponentChoises.text = actualState.GetStateStoryMenue();
+        textComponentChoices.text = actualState.GetStateStoryMenue();
         passedStatesCount = 0;
         collectedWoolCount = 0;
         dehydrationCount = 0;
@@ -309,7 +309,7 @@ public class AdventureGame : MonoBehaviour
         }
 
 
-        textComponentChoises.text = actualState.GetStateStoryMenue();
+        textComponentChoices.text = actualState.GetStateStoryMenue();
         humanStateTxt.text = GetDehydrationText();
         woolStateTxt.text = GetWoolText();
     }
