@@ -15,7 +15,7 @@ public class AdventureGame : MonoBehaviour
     //private static readonly System.Random getrandom = new System.Random(123);
 
     public Text textIntroComponent;
-    public] Text textStoryComponent;
+    public Text textStoryComponent;
     public Text textComponentChoices;
     public State startingState;
     public Image introBG;
