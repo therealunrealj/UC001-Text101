@@ -27,8 +27,8 @@ public class AdventureGame : MonoBehaviour
     public Text humanStateTxt;
 
 
-    private int passedStatesCount;
-    private int collectedWoolCount;
+    private int passedStates;
+    private int collectedWool;
     private double dehydrationCount;
     private bool wait, overrideTextComponent;
     private bool infoOn;
@@ -66,8 +66,8 @@ public class AdventureGame : MonoBehaviour
         actualState = startingState;
         textIntroComponent.text = actualState.GetStateStory();
         textComponentChoices.text = actualState.GetStateStoryMenue();
-        passedStatesCount = 0;
-        collectedWoolCount = 0;
+        passedStates = 0;
+        collectedWool = 0;
         dehydrationCount = 0;
         statesUntilRescue = 30;
         wait = false;
@@ -94,27 +94,27 @@ public class AdventureGame : MonoBehaviour
 
     private string GetWoolText()
     {
-        string txt = "Wool collected (kg): " + collectedWoolCount;
+        string txt = "Wool collected (kg): " + collectedWool;
         return txt;
     }
 
     private void ResetCounters()
     {
-        passedStatesCount = 0;
-        collectedWoolCount = 0;
+        passedStates = 0;
+        collectedWool = 0;
         dehydrationCount = 0;
     }
 
     private State doTransition(State currentState, State nextState)
     {
 
-        passedStatesCount += 1;
+        passedStates += 1;
         dehydrationCount = (dehydrationCount < 20) ? dehydrationCount += 0.5 : dehydrationCount = 20;
 
-        if (passedStatesCount == statesUntilRescue)
+        if (passedStates == statesUntilRescue)
         {
             overrideTextComponent = wait = false;
-            Debug.Log("reached passed state counts: " + passedStatesCount);
+            Debug.Log("reached passed state counts: " + passedStates);
             var rescue = Resources.Load<State>("States/Rescue");
             return rescue;
         }
@@ -134,7 +134,7 @@ public class AdventureGame : MonoBehaviour
         if (nextState.name == "Info.Alarm")
         {
             ResetCounters();
-            Debug.Log("Counters Reseted + " + passedStatesCount + " " + collectedWoolCount + " " + dehydrationCount);
+            Debug.Log("Counters Reseted + " + passedStates + " " + collectedWool + " " + dehydrationCount);
         }
 
         if (currentState.name != nextState.name)
@@ -191,18 +191,18 @@ public class AdventureGame : MonoBehaviour
         if ((currentState.name == "Collect.Info" || currentState.name == "Collect.Do") && nextState.name == "Collect.Do")
         {
             int nbrWool = RandomState.getrandom.Next(1, 3);
-            collectedWoolCount += nbrWool;
-            collectedWoolCount = Clamp(collectedWoolCount, 0, 5);
-            Debug.Log("Collected " + nbrWool + "kg wool: current wool count: " + collectedWoolCount);
+            collectedWool += nbrWool;
+            collectedWool = Clamp(collectedWool, 0, 5);
+            Debug.Log("Collected " + nbrWool + "kg wool: current wool count: " + collectedWool);
             return nextState;
         }
 
 
         if ((currentState.name == "Knit.Info" || nextState.name == "Knit.Do") && nextState.name == "Knit.Do")
         {
-            if (collectedWoolCount >= 2)
+            if (collectedWool >= 2)
             {
-                collectedWoolCount -= 2;
+                collectedWool -= 2;
                 dehydrationCount -= 1.5;
                 Debug.Log("Wool Knitted -2kg + 1L water for magda, current dehydration" + dehydrationCount);
 
@@ -226,10 +226,10 @@ public class AdventureGame : MonoBehaviour
         if (currentState.name == "Fight.Do" && (nextState.name == "Collect.Info" || nextState.name == "Fight.Do"))
         {
 
-            Debug.Log("wool before Fight in kg: " + collectedWoolCount);
-            collectedWoolCount += RandomState.getrandom.Next(0, 3);
-            collectedWoolCount = Clamp(collectedWoolCount, 0, 5);
-            Debug.Log("wool after Fight in kg: " + collectedWoolCount);
+            Debug.Log("wool before Fight in kg: " + collectedWool);
+            collectedWool += RandomState.getrandom.Next(0, 3);
+            collectedWool = Clamp(collectedWool, 0, 5);
+            Debug.Log("wool after Fight in kg: " + collectedWool);
 
         }
 
