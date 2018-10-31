@@ -66,9 +66,8 @@ public class AdventureGame : MonoBehaviour
         actualState = startingState;
         textIntroComponent.text = actualState.GetStateStory();
         textComponentChoices.text = actualState.GetStateStoryMenue();
-        passedStates = 0;
-        collectedWool = 0;
-        dehydrationPercentage = 0;
+
+        ResetValues();
         statesUntilRescue = 30;
         wait = false;
         Debug.Log("Enter");
@@ -98,11 +97,11 @@ public class AdventureGame : MonoBehaviour
         return txt;
     }
 
-    private void ResetCounters()
+    private void ResetValues()
     {
         passedStates = 0;
         collectedWool = 0;
-        dehydrationPercentage = 0;
+        dehydrationPercentage = 0.0;
     }
 
     private State doTransition(State currentState, State nextState)
@@ -133,7 +132,7 @@ public class AdventureGame : MonoBehaviour
 
         if (nextState.name == "Info.Alarm")
         {
-            ResetCounters();
+            ResetValues();
             Debug.Log("Counters Reseted + " + passedStates + " " + collectedWool + " " + dehydrationPercentage);
         }
 
