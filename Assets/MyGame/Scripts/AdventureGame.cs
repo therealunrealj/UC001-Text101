@@ -12,7 +12,7 @@ using UnityEditor;
 public class AdventureGame : MonoBehaviour
 {
 
-    private static readonly System.Random getrandom = new System.Random(123);
+    //private static readonly System.Random getrandom = new System.Random(123);
 
     [SerializeField] Text textIntroComponent;
     [SerializeField] Text textStoryComponent;
@@ -190,7 +190,7 @@ public class AdventureGame : MonoBehaviour
 
         if ((currentState.name == "Collect.Info" || currentState.name == "Collect.Do") && nextState.name == "Collect.Do")
         {
-            int nbrWool = getrandom.Next(1, 3);
+            int nbrWool = RandomState.getrandom.Next(1, 3);
             collectedWoolCount += nbrWool;
             collectedWoolCount = Clamp(collectedWoolCount, 0, 5);
             Debug.Log("Collected " + nbrWool + "kg wool: current wool count: " + collectedWoolCount);
@@ -227,7 +227,7 @@ public class AdventureGame : MonoBehaviour
         {
 
             Debug.Log("wool before Fight in kg: " + collectedWoolCount);
-            collectedWoolCount += getrandom.Next(0, 3);
+            collectedWoolCount += RandomState.getrandom.Next(0, 3);
             collectedWoolCount = Clamp(collectedWoolCount, 0, 5);
             Debug.Log("wool after Fight in kg: " + collectedWoolCount);
 

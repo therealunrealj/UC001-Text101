@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "State")]
 public class State : ScriptableObject{
 
-    private static readonly System.Random getrandom = new System.Random(123);
+    //private static readonly System.Random getrandom = new System.Random(123);
 
     [TextArea(10,14)][SerializeField] string storyText;
     [TextArea(5, 14)] [SerializeField] string storyNextchoices;
@@ -46,13 +46,13 @@ public class State : ScriptableObject{
     {
         //return getrandom.NextDouble() < 0.8 ? idxPrefered : getrandom.Next(idxMin, idxMax);
      
-        if (getrandom.NextDouble() < probabilityPrefered)
+        if (RandomState.getrandom.NextDouble() < probabilityPrefered)
         {
             Debug.Log("< " + probabilityPrefered);
             return idxPrefered;
         }
         Debug.Log("> " + probabilityPrefered);
-        return getrandom.Next(randomMin, randomMax);
+        return RandomState.getrandom.Next(randomMin, randomMax);
     }
 
 }
