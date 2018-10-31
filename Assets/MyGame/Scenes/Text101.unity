@@ -1043,6 +1043,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1789690637}
   - component: {fileID: 1789690636}
+  - component: {fileID: 1789690638}
   m_Layer: 0
   m_Name: GameLogic
   m_TagString: Untagged
@@ -1056,7 +1057,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1789690635}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 88b10cf33c6bbe44ca569bc6dcf4e25c, type: 3}
   m_Name: 
@@ -1085,6 +1086,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1789690638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1789690635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afa3cde7f1e067d4cb71e06de0a4d2a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textIntroComponent: {fileID: 144998599}
+  textStoryComponent: {fileID: 522065320}
+  textComponentChoices: {fileID: 667155111}
+  startingState: {fileID: 11400000, guid: 10eb7c272aa3f3b4fb44963cfe978757, type: 2}
+  introBG: {fileID: 1436110838}
+  storyBG: {fileID: 2056176617}
+  storyMenueBG: {fileID: 1932450952}
+  humanStateBG: {fileID: 1458890660}
+  woolStateBG: {fileID: 1632206100}
+  woolStateTxt: {fileID: 273611987}
+  humanStateTxt: {fileID: 1343545082}
 --- !u!1 &1932450950
 GameObject:
   m_ObjectHideFlags: 0
