@@ -14,6 +14,7 @@ public class AdventureGame : MonoBehaviour
 
     //const int maxStateRescue = 
     const int MAXSTATERESCUE = 30;
+    const int MAXDEHYDRATION = 20;
     //private static readonly System.Random getrandom = new System.Random(123);
 
     public Text textIntroComponent;
@@ -110,7 +111,7 @@ public class AdventureGame : MonoBehaviour
     {
 
         passedStates += 1;
-        dehydrationPercentage = (dehydrationPercentage < 20) ? dehydrationPercentage += 0.5 : dehydrationPercentage = 20;
+        dehydrationPercentage = (dehydrationPercentage < MAXDEHYDRATION) ? dehydrationPercentage += 0.5 : dehydrationPercentage = MAXDEHYDRATION;
 
         if (passedStates == MAXSTATERESCUE)
         {
@@ -120,7 +121,7 @@ public class AdventureGame : MonoBehaviour
             return rescue;
         }
 
-        if (dehydrationPercentage == 20)
+        if (dehydrationPercentage == MAXDEHYDRATION)
         {
             Debug.Log("Exit Dehydration " + dehydrationPercentage);
             overrideTextComponent = wait = false;
