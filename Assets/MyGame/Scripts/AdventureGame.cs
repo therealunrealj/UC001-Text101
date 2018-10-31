@@ -36,7 +36,7 @@ public class AdventureGame : MonoBehaviour
     private int statesUntilRescue;
 
 
-    State actualState;
+    private State actualState;
 
     private void SetupIntroUI()
     {
